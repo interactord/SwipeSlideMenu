@@ -10,6 +10,7 @@
 		2952F974221958DC00278E22 /* HomeContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2952F973221958DC00278E22 /* HomeContainer.swift */; };
 		2952F977221958EF00278E22 /* BaseContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2952F976221958EF00278E22 /* BaseContainer.swift */; };
 		2952F97922195A9400278E22 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2952F97822195A9400278E22 /* HomeViewController.swift */; };
+		2952F97E22198CE000278E22 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2952F97D22198CE000278E22 /* MenuViewController.swift */; };
 		29B1FB6B221933D700098AB2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B1FB6A221933D700098AB2 /* AppDelegate.swift */; };
 		29B1FB70221933D700098AB2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 29B1FB6E221933D700098AB2 /* Main.storyboard */; };
 		29B1FB72221933D800098AB2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 29B1FB71221933D800098AB2 /* Assets.xcassets */; };
@@ -21,6 +22,7 @@
 		2952F973221958DC00278E22 /* HomeContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeContainer.swift; sourceTree = "<group>"; };
 		2952F976221958EF00278E22 /* BaseContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseContainer.swift; sourceTree = "<group>"; };
 		2952F97822195A9400278E22 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		2952F97D22198CE000278E22 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		29B1FB67221933D700098AB2 /* SwipeSlideMenu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwipeSlideMenu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		29B1FB6A221933D700098AB2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		29B1FB6F221933D700098AB2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 		2952F971221957F700278E22 /* Menu */ = {
 			isa = PBXGroup;
 			children = (
+				2952F97D22198CE000278E22 /* MenuViewController.swift */,
 			);
 			path = Menu;
 			sourceTree = "<group>";
@@ -238,12 +241,18 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-SwipeSlideMenu/Pods-SwipeSlideMenu-frameworks.sh",
 				"${PODS_ROOT}/Reveal-SDK/RevealServer-20/iOS/RevealServer.framework",
+				"${BUILT_PRODUCTS_DIR}/RxAtomic/RxAtomic.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Swinject/Swinject.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RevealServer.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAtomic.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Swinject.framework",
 			);
@@ -278,6 +287,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2952F977221958EF00278E22 /* BaseContainer.swift in Sources */,
+				2952F97E22198CE000278E22 /* MenuViewController.swift in Sources */,
 				29B1FB6B221933D700098AB2 /* AppDelegate.swift in Sources */,
 				2952F974221958DC00278E22 /* HomeContainer.swift in Sources */,
 				2952F97922195A9400278E22 /* HomeViewController.swift in Sources */,

@@ -8,8 +8,22 @@
 
 import UIKit
 import SnapKit
+import RxSwift
+import RxCocoa
 
 class HomeViewController: UITableViewController {
+
+    let bag = DisposeBag()
+
+    let openBarButton: UIBarButtonItem = {
+        let barButton = UIBarButtonItem(title: "Open", style: .plain, target: nil, action: nil)
+        return barButton
+    }()
+
+    let hideBarButton: UIBarButtonItem = {
+        let barButton = UIBarButtonItem(title: "Hide", style: .plain, target: nil, action: nil)
+        return barButton
+    }()
 
     override func viewDidLoad() {
         view.backgroundColor = .red
@@ -17,16 +31,13 @@ class HomeViewController: UITableViewController {
         setNavigation()
         setViews()
         setLayout()
+        setBinding()
     }
 
     func setNavigation() {
         navigationItem.title = "home"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Open", style: .plain, target: self, action: #selector(handleOpen))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Hide", style: .plain, target: self, action: #selector(handleHide))
-    }
-
-    @objc func handleOpen() {
-        print("Opening menu...")
+        navigationItem.leftBarButtonItem = openBarButton
+        navigationItem.rightBarButtonItem = hideBarButton
     }
 
     @objc func handleHide() {
@@ -37,6 +48,28 @@ class HomeViewController: UITableViewController {
     }
 
     func setLayout() {
+    }
+
+    func setBinding() {
+        openBarButton.rx.tap
+            .bind { _ in self.openMennu() }
+            .disposed(by: bag)
+
+        hideBarButton.rx.tap
+            .take(1)
+            .bind { _ in
+                print("Hidding menu...")
+            }.disposed(by: bag)
+
+    }
+
+    func openMennu() {
+        let viewController = MenuViewController()
+        viewController.view.frame = CGRect(x: 0, y: 0, width: 300, height: view.frame.height)
+
+        let mainWindow = UIApplication.shared.keyWindow
+        mainWindow?.addSubview(viewController.view)
+
     }
 }
 

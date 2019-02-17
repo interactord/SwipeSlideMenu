@@ -8,6 +8,10 @@ target 'SwipeSlideMenu' do
   # UI
   pod 'SnapKit'
 
+  # ReactiveX
+  pod 'RxSwift'
+  pod 'RxCocoa'
+
   # lint
   pod 'SwiftLint'
 
