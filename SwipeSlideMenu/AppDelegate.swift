@@ -19,10 +19,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
 
         let containter = HomeContainer()
-        let viewController = containter.getViewController()
+//        let viewController = containter.getViewController()
+//        window?.rootViewController = UINavigationController(rootViewController: viewController)
 
-        window?.rootViewController = UINavigationController(rootViewController: viewController)
-
+        let viewController = containter.getBaseViewController()
+        window?.rootViewController = viewController
         return true
     }
 

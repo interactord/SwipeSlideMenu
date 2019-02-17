@@ -29,10 +29,20 @@ final class HomeContainer {
             let viewController = HomeViewController()
             return viewController
         }
+
+        container.register(BaseViewController.self) { _ in
+            let viewController = BaseViewController()
+            return viewController
+        }
     }
 
     func getViewController() -> HomeViewController {
         let viewController = container.resolve(HomeViewController.self)!
+        return viewController
+    }
+
+    func getBaseViewController() -> BaseViewController {
+        let viewController = container.resolve(BaseViewController.self)!
         return viewController
     }
 }
