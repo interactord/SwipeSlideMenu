@@ -27,7 +27,9 @@ class HomeViewController: UITableViewController {
         return barButton
     }()
 
-    fileprivate let menuController: MenuViewController = {
+    fileprivate let menuWith: CGFloat = 300
+
+    fileprivate let menuViewController: MenuViewController = {
         let viewController = MenuViewController()
         return viewController
     }()
@@ -71,19 +73,40 @@ class HomeViewController: UITableViewController {
 
     func openMennu() {
 
-        menuController.view.frame = CGRect(x: 0, y: 0, width: 300, height: view.frame.height)
+        menuViewController.view.frame = CGRect(x: -menuWith, y: 0, width: menuWith, height: view.frame.height)
 
         let mainWindow = UIApplication.shared.keyWindow
-        mainWindow?.addSubview(menuController.view)
-        addChild(menuController)
+        mainWindow?.addSubview(menuViewController.view)
+        addChild(menuViewController)
+
+        UIView.animate(
+            withDuration: 0.5,
+            delay: 0,
+            usingSpringWithDamping: 1,
+            initialSpringVelocity: 1,
+            options: .curveEaseOut,
+            animations: {
+                self.menuViewController.view.transform = CGAffineTransform(translationX: self.menuWith, y: 0)
+            })
 
     }
 
     func hideMenu() {
         print("Hidding menu...")
-        menuController.view.removeFromSuperview()
-        menuController.removeFromParent()
 
+        UIView.animate(
+            withDuration: 0.5,
+            delay: 0,
+            usingSpringWithDamping: 1,
+            initialSpringVelocity: 1,
+            options: .curveEaseOut,
+            animations: {
+                self.menuViewController.view.transform = .identity
+            },
+            completion: { _ in
+                self.menuViewController.view.removeFromSuperview()
+                self.menuViewController.removeFromParent()
+            })
     }
 }
 
