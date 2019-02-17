@@ -7,9 +7,15 @@
 //
 
 import UIKit
+
 import SnapKit
+import RxSwift
+import RxCocoa
+import RxGesture
 
 class BaseViewController: UIViewController {
+
+    let bag = DisposeBag()
 
     let redView: UIView = {
         let view = UIView()
@@ -32,7 +38,7 @@ class BaseViewController: UIViewController {
 
         setupViews()
         setupLayout()
-        setupPanGesture()
+        setupBinding()
     }
 
     func setupViews() {
@@ -54,14 +60,24 @@ class BaseViewController: UIViewController {
 
     }
 
-    func setupPanGesture() {
+    func setupBinding() {
         // how do we translate our red view
-        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
-        view.addGestureRecognizer(panGesture)
+        let panGesture = view.rx.panGesture().share(replay: 1)
+
+        panGesture
+            .when(.changed)
+            .asTranslation()
+            .bind { self.panDragginMenu(translation: $0, velocity: $1) }
+            .disposed(by: bag)
+
+        panGesture
+            .when(.ended)
+            .asTranslation()
+            .bind { self.panEndedMenu(translation: $0, velocity: $1) }
+            .disposed(by: bag)
     }
 
-    @objc func handlePan(gesture: UIPanGestureRecognizer) {
-        let translation = gesture.translation(in: view)
+    private func panDragginMenu(translation: CGPoint, velocity: CGPoint) {
         var translationX = translation.x
 
         translationX = min(menuWidth, translationX)
@@ -71,6 +87,10 @@ class BaseViewController: UIViewController {
         redView.snp.updateConstraints { make in
             make.leading.equalTo(self.view).offset(redViewLeadingOffset)
         }
+    }
+
+    private func panEndedMenu(translation: CGPoint, velocity: CGPoint) {
+        print("panEndedMenu")
     }
 
 }
