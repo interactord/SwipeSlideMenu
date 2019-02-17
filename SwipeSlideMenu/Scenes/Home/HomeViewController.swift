@@ -28,6 +28,19 @@ class HomeViewController: UITableViewController {
         return barButton
     }()
 
+    let darkCoverView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(white: 0, alpha: 0.8)
+        view.alpha = 0
+        view.isUserInteractionEnabled = false
+        return view
+    }()
+
+    let mainWindow: UIWindow? = {
+        let window = UIApplication.shared.keyWindow
+        return window
+    }()
+
     private let menuWith: CGFloat = 300
     private var isMenuOpened = false
     private let velocityOpenThreshold: CGFloat = 500
@@ -40,22 +53,23 @@ class HomeViewController: UITableViewController {
         view.backgroundColor = .red
 
         setNavigation()
-        setupMenuController()
+        setupViews()
         setBinding()
     }
 
-    func setNavigation() {
+    private func setNavigation() {
         navigationItem.title = "home"
         navigationItem.leftBarButtonItem = openBarButton
         navigationItem.rightBarButtonItem = hideBarButton
     }
 
-    private func setupMenuController() {
+    private func setupViews() {
         menuViewController.view.frame = CGRect(x: -menuWith, y: 0, width: menuWith, height: view.frame.height)
-
-        let mainWindow = UIApplication.shared.keyWindow
         mainWindow?.addSubview(menuViewController.view)
         addChild(menuViewController)
+
+        darkCoverView.frame = mainWindow?.frame ?? .zero
+        mainWindow?.addSubview(darkCoverView)
     }
 
     private func setBinding() {
@@ -104,6 +118,9 @@ class HomeViewController: UITableViewController {
             animations: {
                 self.menuViewController.view.transform = transform
                 self.navigationController?.view.transform = transform
+                self.darkCoverView.transform = transform
+
+                self.darkCoverView.alpha = transform == .identity ? 0 : 1
             })
     }
 
@@ -121,6 +138,9 @@ class HomeViewController: UITableViewController {
         let transform = CGAffineTransform(translationX: translationX, y: 0)
         menuViewController.view.transform = transform
         navigationController?.view.transform = transform
+        darkCoverView.transform = transform
+
+        darkCoverView.alpha = translationX / menuWith
     }
 
     private func panEndedMenu(translation: CGPoint, velocity: CGPoint) {
