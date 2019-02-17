@@ -27,12 +27,9 @@ class HomeViewController: UITableViewController {
         return barButton
     }()
 
-    fileprivate let menuWith: CGFloat = 300
+    private let menuWith: CGFloat = 300
 
-    fileprivate let menuViewController: MenuViewController = {
-        let viewController = MenuViewController()
-        return viewController
-    }()
+    private let menuViewController = MenuViewController()
 
     // MARK: Life cycle
 
@@ -40,8 +37,7 @@ class HomeViewController: UITableViewController {
         view.backgroundColor = .red
 
         setNavigation()
-        setViews()
-        setLayout()
+        setupMenuController()
         setBinding()
     }
 
@@ -51,17 +47,15 @@ class HomeViewController: UITableViewController {
         navigationItem.rightBarButtonItem = hideBarButton
     }
 
-    @objc func handleHide() {
-        print("Hidding menu...")
+    private func setupMenuController() {
+        menuViewController.view.frame = CGRect(x: -menuWith, y: 0, width: menuWith, height: view.frame.height)
+
+        let mainWindow = UIApplication.shared.keyWindow
+        mainWindow?.addSubview(menuViewController.view)
+        addChild(menuViewController)
     }
 
-    func setViews() {
-    }
-
-    func setLayout() {
-    }
-
-    func setBinding() {
+    private func setBinding() {
         openBarButton.rx.tap
             .bind { _ in self.openMennu() }
             .disposed(by: bag)
@@ -71,28 +65,15 @@ class HomeViewController: UITableViewController {
             .disposed(by: bag)
     }
 
-    func openMennu() {
-
-        menuViewController.view.frame = CGRect(x: -menuWith, y: 0, width: menuWith, height: view.frame.height)
-
-        let mainWindow = UIApplication.shared.keyWindow
-        mainWindow?.addSubview(menuViewController.view)
-        addChild(menuViewController)
-
-        UIView.animate(
-            withDuration: 0.5,
-            delay: 0,
-            usingSpringWithDamping: 1,
-            initialSpringVelocity: 1,
-            options: .curveEaseOut,
-            animations: {
-                self.menuViewController.view.transform = CGAffineTransform(translationX: self.menuWith, y: 0)
-            })
-
+    private func openMennu() {
+        performAnimations(transform: CGAffineTransform(translationX: menuWith, y: 0))
     }
 
-    func hideMenu() {
-        print("Hidding menu...")
+    private func hideMenu() {
+        performAnimations(transform: .identity)
+    }
+
+    private func performAnimations(transform: CGAffineTransform) {
 
         UIView.animate(
             withDuration: 0.5,
@@ -101,11 +82,7 @@ class HomeViewController: UITableViewController {
             initialSpringVelocity: 1,
             options: .curveEaseOut,
             animations: {
-                self.menuViewController.view.transform = .identity
-            },
-            completion: { _ in
-                self.menuViewController.view.removeFromSuperview()
-                self.menuViewController.removeFromParent()
+                self.menuViewController.view.transform = transform
             })
     }
 }
