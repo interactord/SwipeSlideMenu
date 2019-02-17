@@ -7,24 +7,24 @@
 //
 
 import UIKit
+import SnapKit
 
 class BaseViewController: UIViewController {
 
     let redView: UIView = {
         let view = UIView()
         view.backgroundColor = .red
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
     let blueView: UIView = {
         let view = UIView()
         view.backgroundColor = .blue
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
-    var redViewLeadingConstaint: NSLayoutConstraint!
+    var redViewLeadingOffset: CGFloat = 0
+    var menuWith: CGFloat = 0
     private let menuWidth: CGFloat = 300
 
     override func viewDidLoad() {
@@ -41,19 +41,17 @@ class BaseViewController: UIViewController {
     }
 
     func setupLayout() {
-        NSLayoutConstraint.activate([
-            redView.topAnchor.constraint(equalTo: view.topAnchor),
-            redView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            redView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
 
-            blueView.topAnchor.constraint(equalTo: view.topAnchor),
-            blueView.trailingAnchor.constraint(equalTo: redView.leadingAnchor),
-            blueView.widthAnchor.constraint(equalToConstant: menuWidth),
-            blueView.bottomAnchor.constraint(equalTo: redView.bottomAnchor),
-        ])
+        redView.snp.makeConstraints { make in
+            make.top.bottom.trailing.leading.equalTo(self.view)
+        }
 
-        redViewLeadingConstaint = redView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0)
-        redViewLeadingConstaint.isActive = true
+        blueView.snp.makeConstraints { make in
+            make.top.bottom.equalTo(self.redView)
+            make.trailing.equalTo(self.redView.snp.leading)
+            make.width.equalTo(menuWidth)
+        }
+
     }
 
     func setupPanGesture() {
@@ -67,8 +65,12 @@ class BaseViewController: UIViewController {
         var translationX = translation.x
 
         translationX = min(menuWidth, translationX)
+        translationX = max(0, translationX)
 
-        redViewLeadingConstaint.constant = translationX
+        redViewLeadingOffset = translationX
+        redView.snp.updateConstraints { make in
+            make.leading.equalTo(self.view).offset(redViewLeadingOffset)
+        }
     }
 
 }
