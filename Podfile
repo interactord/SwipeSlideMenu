@@ -12,6 +12,9 @@ target 'SwipeSlideMenu' do
   pod 'SwiftLint'
 
   # Debugger
-  pod 'Reveal-SDK', :configurations => ['Debug'] 
+  pod 'Reveal-SDK', :configurations => ['Debug']
+
+  # injction
+  pod 'Swinject'
 
 end

@@ -2,23 +2,27 @@ PODS:
   - Reveal-SDK (20)
   - SnapKit (4.2.0)
   - SwiftLint (0.30.1)
+  - Swinject (2.5.0)
 
 DEPENDENCIES:
   - Reveal-SDK
   - SnapKit
   - SwiftLint
+  - Swinject
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Reveal-SDK
     - SnapKit
     - SwiftLint
+    - Swinject
 
 SPEC CHECKSUMS:
   Reveal-SDK: 43206a57f575632fd304e85385cc259b5d359e32
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
   SwiftLint: a54bf1fe12b55c68560eb2a7689dfc81458508f7
+  Swinject: 82cdb851f63f91bba974e3eca1d69780f2f7677e
 
-PODFILE CHECKSUM: 9df7af4288fba7810b758059b509e9147af27794
+PODFILE CHECKSUM: c3535a640834fb89a434882153a46b4aa1cecbe2
 
 COCOAPODS: 1.6.0.beta.2
