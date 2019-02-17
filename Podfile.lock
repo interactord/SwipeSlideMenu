@@ -3,6 +3,9 @@ PODS:
   - RxAtomic (4.4.0)
   - RxCocoa (4.4.0):
     - RxSwift (~> 4.0)
+  - RxGesture (2.1.0):
+    - RxCocoa (~> 4.4.0)
+    - RxSwift (~> 4.4.0)
   - RxSwift (4.4.0):
     - RxAtomic (~> 4.4)
   - SnapKit (4.2.0)
@@ -12,6 +15,7 @@ PODS:
 DEPENDENCIES:
   - Reveal-SDK
   - RxCocoa
+  - RxGesture
   - RxSwift
   - SnapKit
   - SwiftLint
@@ -22,6 +26,7 @@ SPEC REPOS:
     - Reveal-SDK
     - RxAtomic
     - RxCocoa
+    - RxGesture
     - RxSwift
     - SnapKit
     - SwiftLint
@@ -31,11 +36,12 @@ SPEC CHECKSUMS:
   Reveal-SDK: 43206a57f575632fd304e85385cc259b5d359e32
   RxAtomic: eacf60db868c96bfd63320e28619fe29c179656f
   RxCocoa: df63ebf7b9a70d6b4eeea407ed5dd4efc8979749
+  RxGesture: 7f6dfb45dbde06e618c24442d38493e3144f2c95
   RxSwift: 5976ecd04fc2fefd648827c23de5e11157faa973
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
   SwiftLint: a54bf1fe12b55c68560eb2a7689dfc81458508f7
   Swinject: 82cdb851f63f91bba974e3eca1d69780f2f7677e
 
-PODFILE CHECKSUM: 86ba56db10519f32aea4ded39b95e70c89c0b18e
+PODFILE CHECKSUM: 1ed697a91c920673ca58e19326178ac52cf066ac
 
 COCOAPODS: 1.6.0.beta.2

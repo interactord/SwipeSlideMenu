@@ -11,6 +11,7 @@ target 'SwipeSlideMenu' do
   # ReactiveX
   pod 'RxSwift'
   pod 'RxCocoa'
+  pod 'RxGesture'
 
   # lint
   pod 'SwiftLint'

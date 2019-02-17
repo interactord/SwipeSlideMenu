@@ -10,6 +10,7 @@ import UIKit
 import SnapKit
 import RxSwift
 import RxCocoa
+import RxGesture
 
 class HomeViewController: UITableViewController {
 
@@ -63,6 +64,11 @@ class HomeViewController: UITableViewController {
         hideBarButton.rx.tap
             .bind { _ in self.hideMenu() }
             .disposed(by: bag)
+
+        view.rx.panGesture()
+            .bind { recognizer in self.dragMenu(gesture: recognizer) }
+            .disposed(by: bag)
+
     }
 
     private func openMennu() {
@@ -83,7 +89,24 @@ class HomeViewController: UITableViewController {
             options: .curveEaseOut,
             animations: {
                 self.menuViewController.view.transform = transform
+                self.navigationController?.view.transform = transform
             })
+    }
+
+    private func dragMenu(gesture: UIPanGestureRecognizer) {
+        let transition = gesture.translation(in: view)
+
+        if gesture.state == .changed {
+            var positionX = transition.x
+            positionX = min(menuWith, positionX)
+            positionX = max(0, positionX)
+
+            let transform = CGAffineTransform(translationX: positionX, y: 0)
+            menuViewController.view.transform = transform
+            navigationController?.view.transform = transform
+        } else if gesture.state == .ended {
+            openMennu()
+        }
     }
 }
 
