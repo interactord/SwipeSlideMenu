@@ -29,8 +29,10 @@ class BaseViewController: UIViewController {
         return view
     }()
 
-    var redViewLeadingOffset: CGFloat = 0
-    var menuWith: CGFloat = 0
+    let homeViewController = HomeViewController()
+    let menuViewController = MenuViewController()
+
+    private var isMenuOpened = false
     private let menuWidth: CGFloat = 300
 
     override func viewDidLoad() {
@@ -39,6 +41,8 @@ class BaseViewController: UIViewController {
         setupViews()
         setupLayout()
         setupBinding()
+        setupViewContoller()
+        setupViewContollerLayout()
     }
 
     func setupViews() {
@@ -47,7 +51,6 @@ class BaseViewController: UIViewController {
     }
 
     func setupLayout() {
-
         redView.snp.makeConstraints { make in
             make.top.bottom.trailing.leading.equalTo(self.view)
         }
@@ -57,40 +60,90 @@ class BaseViewController: UIViewController {
             make.trailing.equalTo(self.redView.snp.leading)
             make.width.equalTo(menuWidth)
         }
+    }
+
+    func setupViewContoller() {
+
+        guard
+            let homeView = homeViewController.view,
+            let menuView = menuViewController.view
+            else { return }
+
+        redView.addSubview(homeView)
+        blueView.addSubview(menuView)
+
+        addChild(homeViewController)
+        addChild(menuViewController)
+    }
+
+    func setupViewContollerLayout() {
+        guard
+            let homeView = homeViewController.view,
+            let menuView = menuViewController.view
+            else { return }
+
+        homeView.snp.makeConstraints { make in
+            make.top.trailing.bottom.leading.equalTo(redView)
+        }
+
+        menuView.snp.makeConstraints { make in
+            make.top.trailing.bottom.leading.equalTo(blueView)
+        }
 
     }
 
     func setupBinding() {
         // how do we translate our red view
-        let panGesture = view.rx.panGesture().share(replay: 1)
+        let panGesture = view.rx.panGesture(configuration: { _, delegate in
+            delegate.simultaneousRecognitionPolicy = .never
+        }).share(replay: 1)
 
         panGesture
             .when(.changed)
-            .asTranslation()
-            .bind { self.panDragginMenu(translation: $0, velocity: $1) }
+            .bind { self.panDragginMenu(gesture: $0) }
             .disposed(by: bag)
 
         panGesture
             .when(.ended)
-            .asTranslation()
-            .bind { self.panEndedMenu(translation: $0, velocity: $1) }
+            .bind { self.panEndedMenu(gesture: $0) }
             .disposed(by: bag)
     }
 
-    private func panDragginMenu(translation: CGPoint, velocity: CGPoint) {
+    private func panDragginMenu(gesture: UIPanGestureRecognizer) {
+        let translation = gesture.translation(in: view)
         var translationX = translation.x
 
+        translationX = isMenuOpened ? translationX + menuWidth : translationX
         translationX = min(menuWidth, translationX)
         translationX = max(0, translationX)
 
-        redViewLeadingOffset = translationX
-        redView.snp.updateConstraints { make in
-            make.leading.equalTo(self.view).offset(redViewLeadingOffset)
-        }
+        updateRedViewLeading(offset: translationX)
     }
 
-    private func panEndedMenu(translation: CGPoint, velocity: CGPoint) {
-        print("panEndedMenu")
+    private func panEndedMenu(gesture: UIPanGestureRecognizer) {
+        let translation = gesture.translation(in: view)
+        let offset: CGFloat = translation.x < menuWidth / 2 ? 0 : menuWidth
+        isMenuOpened = translation.x < menuWidth / 2 ? false : true
+        self.updateRedViewLeading(offset: offset)
+
+        UIView.animate(
+            withDuration: 0.5,
+            delay: 0,
+            usingSpringWithDamping: 1,
+            initialSpringVelocity: 1,
+            options: .curveEaseOut,
+            animations: {
+
+                // leave a reference link down in description below
+
+                self.view.layoutIfNeeded()
+            })
+    }
+
+    func updateRedViewLeading(offset: CGFloat) {
+        redView.snp.updateConstraints { make in
+            make.leading.equalTo(self.view).offset(offset)
+        }
     }
 
 }
