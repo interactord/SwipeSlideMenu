@@ -29,6 +29,8 @@ class HomeViewController: UITableViewController {
     }()
 
     private let menuWith: CGFloat = 300
+    private var isMenuOpened = false
+    private let velocityOpenThreshold: CGFloat = 500
 
     private let menuViewController = MenuViewController()
 
@@ -65,17 +67,29 @@ class HomeViewController: UITableViewController {
             .bind { _ in self.hideMenu() }
             .disposed(by: bag)
 
-        view.rx.panGesture()
-            .bind { recognizer in self.dragMenu(gesture: recognizer) }
+        let panGesture = view.rx.panGesture().share(replay: 1)
+
+        panGesture
+            .when(.changed)
+            .asTranslation()
+            .bind { self.panDragginMenu(translation: $0, velocity: $1) }
+            .disposed(by: bag)
+
+        panGesture
+            .when(.ended)
+            .asTranslation()
+            .bind { self.panEndedMenu(translation: $0, velocity: $1) }
             .disposed(by: bag)
 
     }
 
     private func openMennu() {
+        isMenuOpened = true
         performAnimations(transform: CGAffineTransform(translationX: menuWith, y: 0))
     }
 
     private func hideMenu() {
+        isMenuOpened = false
         performAnimations(transform: .identity)
     }
 
@@ -93,20 +107,48 @@ class HomeViewController: UITableViewController {
             })
     }
 
-    private func dragMenu(gesture: UIPanGestureRecognizer) {
-        let transition = gesture.translation(in: view)
+    private func panDragginMenu(translation: CGPoint, velocity: CGPoint) {
 
-        if gesture.state == .changed {
-            var positionX = transition.x
-            positionX = min(menuWith, positionX)
-            positionX = max(0, positionX)
+        var translationX = translation.x
 
-            let transform = CGAffineTransform(translationX: positionX, y: 0)
-            menuViewController.view.transform = transform
-            navigationController?.view.transform = transform
-        } else if gesture.state == .ended {
-            openMennu()
+        if isMenuOpened {
+            translationX += menuWith
         }
+
+        translationX = min(menuWith, translationX)
+        translationX = max(0, translationX)
+
+        let transform = CGAffineTransform(translationX: translationX, y: 0)
+        menuViewController.view.transform = transform
+        navigationController?.view.transform = transform
+    }
+
+    private func panEndedMenu(translation: CGPoint, velocity: CGPoint) {
+        if isMenuOpened {
+            if abs(velocity.x) > velocityOpenThreshold {
+                hideMenu()
+                return
+            }
+
+            if abs(translation.x) < menuWith / 2 {
+                openMennu()
+            } else {
+                hideMenu()
+            }
+        } else {
+
+            if abs(velocity.x) > velocityOpenThreshold {
+                openMennu()
+                return
+            }
+
+            if translation.x < menuWith / 2 {
+                hideMenu()
+            } else {
+                openMennu()
+            }
+        }
+
     }
 }
 
