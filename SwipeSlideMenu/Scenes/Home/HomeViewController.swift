@@ -81,19 +81,19 @@ class HomeViewController: UITableViewController {
             .bind { _ in self.hideMenu() }
             .disposed(by: bag)
 
-        let panGesture = view.rx.panGesture().share(replay: 1)
-
-        panGesture
-            .when(.changed)
-            .asTranslation()
-            .bind { self.panDragginMenu(translation: $0, velocity: $1) }
-            .disposed(by: bag)
-
-        panGesture
-            .when(.ended)
-            .asTranslation()
-            .bind { self.panEndedMenu(translation: $0, velocity: $1) }
-            .disposed(by: bag)
+//        let panGesture = view.rx.panGesture().share(replay: 1)
+//
+//        panGesture
+//            .when(.changed)
+//            .asTranslation()
+//            .bind { self.panDragginMenu(translation: $0, velocity: $1) }
+//            .disposed(by: bag)
+//
+//        panGesture
+//            .when(.ended)
+//            .asTranslation()
+//            .bind { self.panEndedMenu(translation: $0, velocity: $1) }
+//            .disposed(by: bag)
 
     }
 

@@ -15,6 +15,8 @@ import RxGesture
 
 class BaseViewController: UIViewController {
 
+    // MARK: Definition Variable
+
     let bag = DisposeBag()
 
     let redView: UIView = {
@@ -29,11 +31,21 @@ class BaseViewController: UIViewController {
         return view
     }()
 
+    let darkCoverView: UIView = {
+        let view = UIView()
+        view.alpha = 0
+        view.backgroundColor = UIColor(white: 0, alpha: 0.7)
+        return view
+    }()
+
     let homeViewController = HomeViewController()
     let menuViewController = MenuViewController()
 
-    private var isMenuOpened = false
     private let menuWidth: CGFloat = 300
+    private let velocityThreshold: CGFloat = 500
+    private var isMenuOpened = false
+
+    // MARK: Life cycle
 
     override func viewDidLoad() {
         view.backgroundColor = .yellow
@@ -45,10 +57,29 @@ class BaseViewController: UIViewController {
         setupViewContollerLayout()
     }
 
+    // MARK: Setup uiviews in UIViewController
+
     func setupViews() {
         view.addSubview(redView)
         view.addSubview(blueView)
     }
+
+    func setupViewContoller() {
+
+        guard
+            let homeView = homeViewController.view,
+            let menuView = menuViewController.view
+            else { return }
+
+        redView.addSubview(homeView)
+        redView.addSubview(darkCoverView)
+        blueView.addSubview(menuView)
+
+        addChild(homeViewController)
+        addChild(menuViewController)
+    }
+
+    // MARK: Layout UIViews...
 
     func setupLayout() {
         redView.snp.makeConstraints { make in
@@ -62,20 +93,6 @@ class BaseViewController: UIViewController {
         }
     }
 
-    func setupViewContoller() {
-
-        guard
-            let homeView = homeViewController.view,
-            let menuView = menuViewController.view
-            else { return }
-
-        redView.addSubview(homeView)
-        blueView.addSubview(menuView)
-
-        addChild(homeViewController)
-        addChild(menuViewController)
-    }
-
     func setupViewContollerLayout() {
         guard
             let homeView = homeViewController.view,
@@ -86,11 +103,17 @@ class BaseViewController: UIViewController {
             make.top.trailing.bottom.leading.equalTo(redView)
         }
 
+        darkCoverView.snp.makeConstraints { make in
+            make.top.trailing.bottom.leading.equalTo(redView)
+        }
+
         menuView.snp.makeConstraints { make in
             make.top.trailing.bottom.leading.equalTo(blueView)
         }
 
     }
+
+    // MARK: Binding
 
     func setupBinding() {
         // how do we translate our red view
@@ -100,32 +123,70 @@ class BaseViewController: UIViewController {
 
         panGesture
             .when(.changed)
-            .bind { self.panDragginMenu(gesture: $0) }
+            .asTranslation()
+            .flatMapLatest(panDragginMenu)
+            .bind { transitionX in
+                self.darkCoverView.alpha = transitionX / self.menuWidth
+                self.updateRedViewLeading(offset: transitionX)
+            }
             .disposed(by: bag)
 
         panGesture
             .when(.ended)
-            .bind { self.panEndedMenu(gesture: $0) }
+            .asTranslation()
+            .flatMapLatest(panEndedMenu)
+            .bind { isOpen in
+                isOpen ? self.openMenu() : self.closeMenu()
+            }
             .disposed(by: bag)
     }
 
-    private func panDragginMenu(gesture: UIPanGestureRecognizer) {
-        let translation = gesture.translation(in: view)
+    // MARK: Setup PanGesuture
+
+    private func panDragginMenu(translation: CGPoint, velocity: CGPoint) -> Observable<CGFloat> {
         var translationX = translation.x
 
         translationX = isMenuOpened ? translationX + menuWidth : translationX
         translationX = min(menuWidth, translationX)
         translationX = max(0, translationX)
-
-        updateRedViewLeading(offset: translationX)
+        return Observable.just(translationX)
     }
 
-    private func panEndedMenu(gesture: UIPanGestureRecognizer) {
-        let translation = gesture.translation(in: view)
-        let offset: CGFloat = translation.x < menuWidth / 2 ? 0 : menuWidth
-        isMenuOpened = translation.x < menuWidth / 2 ? false : true
-        self.updateRedViewLeading(offset: offset)
+    private func panEndedMenu(translation: CGPoint, velocity: CGPoint) -> Observable<Bool> {
 
+        if abs(velocity.x) > velocityThreshold {
+            return Observable.just(!isMenuOpened)
+        }
+
+        if abs(translation.x) < menuWidth / 2 {
+            isMenuOpened ? openMenu() : closeMenu()
+            return Observable.just(isMenuOpened)
+        }
+
+        return Observable.just(!isMenuOpened)
+    }
+
+    func updateRedViewLeading(offset: CGFloat) {
+        redView.snp.updateConstraints { make in
+            make.leading.equalTo(self.view).offset(offset)
+        }
+    }
+
+    func openMenu() {
+        isMenuOpened = true
+        self.updateRedViewLeading(offset: menuWidth)
+        performAnimation()
+    }
+
+    func closeMenu() {
+        isMenuOpened = false
+        self.updateRedViewLeading(offset: 0)
+        performAnimation()
+    }
+
+    // MARK: Animated
+
+    func performAnimation() {
         UIView.animate(
             withDuration: 0.5,
             delay: 0,
@@ -133,17 +194,9 @@ class BaseViewController: UIViewController {
             initialSpringVelocity: 1,
             options: .curveEaseOut,
             animations: {
-
-                // leave a reference link down in description below
-
                 self.view.layoutIfNeeded()
+                self.darkCoverView.alpha = self.isMenuOpened ? 1 : 0
             })
-    }
-
-    func updateRedViewLeading(offset: CGFloat) {
-        redView.snp.updateConstraints { make in
-            make.leading.equalTo(self.view).offset(offset)
-        }
     }
 
 }
