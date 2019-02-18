@@ -32,9 +32,21 @@ class CustomMenuHeaderView: UIView {
         return lable
     }()
 
+    private lazy var profileImageView: ImageSpaceView = {
+        let space: CGFloat = 48
+        let imageView = ImageSpaceView(space: space)
+        imageView.image = #imageLiteral(resourceName: "girl_profile")
+        imageView.layer.cornerRadius = space / 2
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFit
+        imageView.backgroundColor = .red
+        return imageView
+    }()
+
     private lazy var stackView: UIStackView = {
         let arrangedSubviews = [
             UIView(),
+            UIStackView(arrangedSubviews: [profileImageView, UIView()]),
             nameLabel,
             usernameLabel,
             SpaceView(space: 16),
@@ -59,6 +71,7 @@ class CustomMenuHeaderView: UIView {
 
         setupViews()
         setupLayout()
+        setupStateAttributedText()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -79,6 +92,31 @@ class CustomMenuHeaderView: UIView {
             make.top.leading.bottom.trailing.equalTo(self)
         }
 
+    }
+
+    private func setupStateAttributedText() {
+        statsLabel.font = UIFont.systemFont(ofSize: 14)
+        let attributedText = NSMutableAttributedString(
+            string: "42 ",
+            attributes: [.font: UIFont.systemFont(ofSize: 17, weight: .medium)]
+        )
+
+        attributedText.append(NSAttributedString(
+            string: "Following  ",
+            attributes: [.foregroundColor: UIColor.black]
+        ))
+
+        attributedText.append(NSAttributedString(
+            string: "7091 ",
+            attributes: [.font: UIFont.systemFont(ofSize: 17, weight: .medium)]
+        ))
+
+        attributedText.append(NSAttributedString(
+            string: "Followers",
+            attributes: [.foregroundColor: UIColor.black]
+        ))
+
+        statsLabel.attributedText = attributedText
     }
 
 }

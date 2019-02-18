@@ -19,6 +19,7 @@
 		29B1FB75221933D800098AB2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 29B1FB73221933D800098AB2 /* LaunchScreen.storyboard */; };
 		29E17F4F221B05E400DBE0C2 /* CustomMenuHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E17F4E221B05E400DBE0C2 /* CustomMenuHeaderView.swift */; };
 		29E17F52221B0A2000DBE0C2 /* SpaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E17F51221B0A2000DBE0C2 /* SpaceView.swift */; };
+		29E17F56221B132300DBE0C2 /* ImageSpaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E17F55221B132300DBE0C2 /* ImageSpaceView.swift */; };
 		FF9C1FBBE47E9B1C464D7ED7 /* Pods_SwipeSlideMenu.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD1EFCA93AE4EDC3020970BD /* Pods_SwipeSlideMenu.framework */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +38,7 @@
 		29B1FB76221933D800098AB2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		29E17F4E221B05E400DBE0C2 /* CustomMenuHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMenuHeaderView.swift; sourceTree = "<group>"; };
 		29E17F51221B0A2000DBE0C2 /* SpaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceView.swift; sourceTree = "<group>"; };
+		29E17F55221B132300DBE0C2 /* ImageSpaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSpaceView.swift; sourceTree = "<group>"; };
 		3A015F93508DB86CB1CA9494 /* Pods-SwipeSlideMenu.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwipeSlideMenu.debug.xcconfig"; path = "Target Support Files/Pods-SwipeSlideMenu/Pods-SwipeSlideMenu.debug.xcconfig"; sourceTree = "<group>"; };
 		4281280F53009358987CE8E0 /* Pods-SwipeSlideMenu.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwipeSlideMenu.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwipeSlideMenu/Pods-SwipeSlideMenu.release.xcconfig"; sourceTree = "<group>"; };
 		9E0BFFC5A9F43D43AC2CE823 /* Pods-SwipeSlideMenu.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwipeSlideMenu.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwipeSlideMenu/Pods-SwipeSlideMenu.debug.xcconfig"; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 			isa = PBXGroup;
 			children = (
 				2952F976221958EF00278E22 /* BaseContainer.swift */,
+				29E17F55221B132300DBE0C2 /* ImageSpaceView.swift */,
 				2952F9892219CF1D00278E22 /* BaseViewController.swift */,
 				29E17F51221B0A2000DBE0C2 /* SpaceView.swift */,
 			);
@@ -325,6 +328,7 @@
 				2952F9832219BA0600278E22 /* Observable+Ext.swift in Sources */,
 				2952F98A2219CF1D00278E22 /* BaseViewController.swift in Sources */,
 				2952F97922195A9400278E22 /* HomeViewController.swift in Sources */,
+				29E17F56221B132300DBE0C2 /* ImageSpaceView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
