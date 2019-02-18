@@ -13,6 +13,8 @@ import RxSwift
 import RxCocoa
 import RxGesture
 
+typealias TranslationType = (translation: CGPoint, velocity: CGPoint)
+
 class BaseViewController: UIViewController {
 
     // MARK: Definition Variable
@@ -42,8 +44,6 @@ class BaseViewController: UIViewController {
     let menuViewController = MenuViewController()
 
     private let menuWidth: CGFloat = 300
-    private let velocityThreshold: CGFloat = 500
-    private var isMenuOpened = false
 
     // MARK: Life cycle
 
@@ -121,49 +121,57 @@ class BaseViewController: UIViewController {
             delegate.simultaneousRecognitionPolicy = .never
         }).share(replay: 1)
 
-        panGesture
-            .when(.changed)
-            .asTranslation()
-            .flatMapLatest(panDragginMenu)
-            .bind { transitionX in
-                self.darkCoverView.alpha = transitionX / self.menuWidth
-                self.updateRedViewLeading(offset: transitionX)
+        let menuOpened = BehaviorRelay<Bool>(value: false)
+        let touchMovedGesture = panGesture.when(.changed).asTranslation()
+        let touchEndedGesture = panGesture.when(.ended).asTranslation()
+
+        Observable
+            .combineLatest(touchMovedGesture, menuOpened) { [weak self] (transiton, menuOpend) -> CGFloat in
+                guard let strongSelf = self else { return 0 }
+                return strongSelf.panDragginMenu(translation: transiton, isMenuOpened: menuOpend)
             }
+            .subscribe(onNext: { [weak self] transitionX in
+                guard let strongSelf = self else { return }
+                strongSelf.darkCoverView.alpha = transitionX / strongSelf.menuWidth
+                strongSelf.updateRedViewLeading(offset: transitionX)
+            })
             .disposed(by: bag)
 
-        panGesture
-            .when(.ended)
-            .asTranslation()
-            .flatMapLatest(panEndedMenu)
-            .bind { isOpen in
-                isOpen ? self.openMenu() : self.closeMenu()
+        Observable
+            .zip(touchEndedGesture, menuOpened) {
+                self.panEndedMenu(translation: $0, isMenuOpened: $1)
             }
+            .subscribe(onNext: { [weak self] result in
+                guard let strongSelf = self else { return }
+                menuOpened.accept(result)
+                strongSelf.handleMenu(isMenuOpened: result)
+            })
             .disposed(by: bag)
     }
 
     // MARK: Setup PanGesuture
 
-    private func panDragginMenu(translation: CGPoint, velocity: CGPoint) -> Observable<CGFloat> {
-        var translationX = translation.x
+    private func panDragginMenu(translation: TranslationType, isMenuOpened: Bool) -> CGFloat {
+        var translationX = translation.translation.x
 
         translationX = isMenuOpened ? translationX + menuWidth : translationX
         translationX = min(menuWidth, translationX)
         translationX = max(0, translationX)
-        return Observable.just(translationX)
+        return translationX
     }
 
-    private func panEndedMenu(translation: CGPoint, velocity: CGPoint) -> Observable<Bool> {
+    private func panEndedMenu(translation: TranslationType, isMenuOpened: Bool) -> Bool {
+        let velocityThreshold: CGFloat = 500
 
-        if abs(velocity.x) > velocityThreshold {
-            return Observable.just(!isMenuOpened)
+        if abs(translation.velocity.x) > velocityThreshold {
+            return !isMenuOpened
         }
 
-        if abs(translation.x) < menuWidth / 2 {
-            isMenuOpened ? openMenu() : closeMenu()
-            return Observable.just(isMenuOpened)
+        if abs(translation.translation.x) < menuWidth / 2 {
+            return isMenuOpened
         }
 
-        return Observable.just(!isMenuOpened)
+        return !isMenuOpened
     }
 
     func updateRedViewLeading(offset: CGFloat) {
@@ -172,30 +180,25 @@ class BaseViewController: UIViewController {
         }
     }
 
-    func openMenu() {
-        isMenuOpened = true
-        self.updateRedViewLeading(offset: menuWidth)
-        performAnimation()
-    }
+    func handleMenu(isMenuOpened: Bool) {
+        isMenuOpened ? self.updateRedViewLeading(offset: menuWidth) : self.updateRedViewLeading(offset: 0)
+        performAnimation(isMenuOpened: isMenuOpened)
 
-    func closeMenu() {
-        isMenuOpened = false
-        self.updateRedViewLeading(offset: 0)
-        performAnimation()
     }
 
     // MARK: Animated
 
-    func performAnimation() {
+    func performAnimation(isMenuOpened: Bool) {
         UIView.animate(
             withDuration: 0.5,
             delay: 0,
             usingSpringWithDamping: 1,
             initialSpringVelocity: 1,
             options: .curveEaseOut,
-            animations: {
-                self.view.layoutIfNeeded()
-                self.darkCoverView.alpha = self.isMenuOpened ? 1 : 0
+            animations: { [weak self] in
+                guard let strongSelf = self else { return }
+                strongSelf.view.layoutIfNeeded()
+                strongSelf.darkCoverView.alpha = isMenuOpened ? 1 : 0
             })
     }
 
