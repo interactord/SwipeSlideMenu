@@ -7,13 +7,24 @@
 //
 
 import UIKit
+import SnapKit
 
 struct MenuItem {
     let icon: UIImage
     let title: String
 }
 
-class MenuViewController: UITableViewController {
+class MenuViewController: UIViewController {
+
+    // MARK: Definition Variable
+
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.separatorStyle = .none
+        tableView.delegate = self
+        tableView.dataSource = self
+        return tableView
+    }()
 
     private lazy var menuItems = [
         MenuItem(icon: #imageLiteral(resourceName: "profile"), title: "Profile"),
@@ -22,29 +33,42 @@ class MenuViewController: UITableViewController {
         MenuItem(icon: #imageLiteral(resourceName: "moments"), title: "Moments"),
     ]
 
+    // MARK: Life cycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.separatorStyle = .none
+        setupViews()
+        setupLayout()
+    }
+
+    private func setupViews() {
+        view.addSubview(tableView)
+    }
+
+    private func setupLayout() {
+        tableView.snp.makeConstraints { make in
+            make.top.leading.bottom.trailing.equalTo(self.view)
+        }
     }
 }
 
 // MARK: UITableView DataSource
 
-extension MenuViewController {
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+extension MenuViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let customMenuHeaderView = CustomMenuHeaderView()
         return customMenuHeaderView
     }
 
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 200
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return menuItems.count
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = MenuItemCell(style: .default, reuseIdentifier: "CellId")
         let menuItem = menuItems[indexPath.item]
         cell.iconImageView.image = menuItem.icon

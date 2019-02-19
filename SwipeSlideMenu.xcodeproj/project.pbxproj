@@ -14,6 +14,8 @@
 		2952F9832219BA0600278E22 /* Observable+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2952F9822219BA0600278E22 /* Observable+Ext.swift */; };
 		2952F98A2219CF1D00278E22 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2952F9892219CF1D00278E22 /* BaseViewController.swift */; };
 		29978041221C4198001A0995 /* MenuItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29978040221C4198001A0995 /* MenuItemCell.swift */; };
+		29978043221C4790001A0995 /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29978042221C4790001A0995 /* MenuViewModel.swift */; };
+		29978045221C4AB3001A0995 /* MenuItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29978044221C4AB3001A0995 /* MenuItemViewModel.swift */; };
 		29B1FB6B221933D700098AB2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B1FB6A221933D700098AB2 /* AppDelegate.swift */; };
 		29B1FB70221933D700098AB2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 29B1FB6E221933D700098AB2 /* Main.storyboard */; };
 		29B1FB72221933D800098AB2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 29B1FB71221933D800098AB2 /* Assets.xcassets */; };
@@ -32,6 +34,8 @@
 		2952F9822219BA0600278E22 /* Observable+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Observable+Ext.swift"; sourceTree = "<group>"; };
 		2952F9892219CF1D00278E22 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		29978040221C4198001A0995 /* MenuItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemCell.swift; sourceTree = "<group>"; };
+		29978042221C4790001A0995 /* MenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModel.swift; sourceTree = "<group>"; };
+		29978044221C4AB3001A0995 /* MenuItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemViewModel.swift; sourceTree = "<group>"; };
 		29B1FB67221933D700098AB2 /* SwipeSlideMenu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwipeSlideMenu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		29B1FB6A221933D700098AB2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		29B1FB6F221933D700098AB2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -94,6 +98,8 @@
 			children = (
 				29E17F4D221B05B200DBE0C2 /* Cells */,
 				2952F97D22198CE000278E22 /* MenuViewController.swift */,
+				29978042221C4790001A0995 /* MenuViewModel.swift */,
+				29978044221C4AB3001A0995 /* MenuItemViewModel.swift */,
 			);
 			path = Menu;
 			sourceTree = "<group>";
@@ -274,9 +280,11 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-SwipeSlideMenu/Pods-SwipeSlideMenu-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Differentiator/Differentiator.framework",
 				"${PODS_ROOT}/Reveal-SDK/RevealServer-20/iOS/RevealServer.framework",
 				"${BUILT_PRODUCTS_DIR}/RxAtomic/RxAtomic.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxDataSources/RxDataSources.framework",
 				"${BUILT_PRODUCTS_DIR}/RxGesture/RxGesture.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
@@ -284,9 +292,11 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Differentiator.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RevealServer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAtomic.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxDataSources.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxGesture.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
@@ -325,7 +335,9 @@
 				2952F977221958EF00278E22 /* BaseContainer.swift in Sources */,
 				29E17F4F221B05E400DBE0C2 /* CustomMenuHeaderView.swift in Sources */,
 				29978041221C4198001A0995 /* MenuItemCell.swift in Sources */,
+				29978043221C4790001A0995 /* MenuViewModel.swift in Sources */,
 				2952F97E22198CE000278E22 /* MenuViewController.swift in Sources */,
+				29978045221C4AB3001A0995 /* MenuItemViewModel.swift in Sources */,
 				29B1FB6B221933D700098AB2 /* AppDelegate.swift in Sources */,
 				2952F974221958DC00278E22 /* HomeContainer.swift in Sources */,
 				29E17F52221B0A2000DBE0C2 /* SpaceView.swift in Sources */,

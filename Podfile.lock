@@ -1,7 +1,12 @@
 PODS:
+  - Differentiator (3.1.0)
   - Reveal-SDK (20)
   - RxAtomic (4.4.0)
   - RxCocoa (4.4.0):
+    - RxSwift (~> 4.0)
+  - RxDataSources (3.1.0):
+    - Differentiator (~> 3.0)
+    - RxCocoa (~> 4.0)
     - RxSwift (~> 4.0)
   - RxGesture (2.1.0):
     - RxCocoa (~> 4.4.0)
@@ -15,6 +20,7 @@ PODS:
 DEPENDENCIES:
   - Reveal-SDK
   - RxCocoa
+  - RxDataSources
   - RxGesture
   - RxSwift
   - SnapKit
@@ -23,9 +29,11 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - Differentiator
     - Reveal-SDK
     - RxAtomic
     - RxCocoa
+    - RxDataSources
     - RxGesture
     - RxSwift
     - SnapKit
@@ -33,15 +41,17 @@ SPEC REPOS:
     - Swinject
 
 SPEC CHECKSUMS:
+  Differentiator: be49ca3408f0ecfc761e4c7763d20c62be01b9ad
   Reveal-SDK: 43206a57f575632fd304e85385cc259b5d359e32
   RxAtomic: eacf60db868c96bfd63320e28619fe29c179656f
   RxCocoa: df63ebf7b9a70d6b4eeea407ed5dd4efc8979749
+  RxDataSources: a843bad90c29817f5923ec8163f4af2de084ceb3
   RxGesture: 7f6dfb45dbde06e618c24442d38493e3144f2c95
   RxSwift: 5976ecd04fc2fefd648827c23de5e11157faa973
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
   SwiftLint: a54bf1fe12b55c68560eb2a7689dfc81458508f7
   Swinject: 82cdb851f63f91bba974e3eca1d69780f2f7677e
 
-PODFILE CHECKSUM: 1ed697a91c920673ca58e19326178ac52cf066ac
+PODFILE CHECKSUM: be989fa9984dad1c6db4e995c73d0f45749e6e22
 
 COCOAPODS: 1.6.0.beta.2
