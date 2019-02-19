@@ -8,6 +8,9 @@
 
 import UIKit
 import SnapKit
+import RxSwift
+import RxCocoa
+import RxDataSources
 
 struct MenuItem {
     let icon: UIImage
@@ -18,13 +21,51 @@ class MenuViewController: UIViewController {
 
     // MARK: Definition Variable
 
+    var bag: DisposeBag?
+
+    var viewModel: MenuViewModelType? {
+        didSet {
+            guard let viewModel = viewModel else { return }
+
+            let bag = DisposeBag()
+
+            tableView.rx.setDelegate(self).disposed(by: bag)
+
+            viewWillAppearTrigger
+                .bind(to: viewModel.startAction)
+                .disposed(by: bag)
+
+            viewModel
+                .menuItems
+                .bind(to: self.tableView.rx.items(dataSource: source))
+                .disposed(by: bag)
+
+            self.bag = bag
+        }
+    }
+
+    private let cellId = "cellId"
+
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.separatorStyle = .none
-        tableView.delegate = self
-        tableView.dataSource = self
+        tableView.register(MenuItemCell.self, forCellReuseIdentifier: cellId)
         return tableView
     }()
+
+    lazy var source = RxTableViewSectionedReloadDataSource<MenuSection>(configureCell: configureCell)
+
+    lazy var configureCell: RxTableViewSectionedReloadDataSource<MenuSection>.ConfigureCell = { [weak self] _, tableView, indexPath, viewModel in
+
+        guard
+            let strongSelf = self,
+            let cell = tableView.dequeueReusableCell(withIdentifier: strongSelf.cellId),
+            let menuCell = cell as? MenuItemCell
+            else { return UITableViewCell() }
+
+        viewModel.configure(cell: menuCell)
+        return menuCell
+    }
 
     private lazy var menuItems = [
         MenuItem(icon: #imageLiteral(resourceName: "profile"), title: "Profile"),
@@ -41,9 +82,13 @@ class MenuViewController: UIViewController {
         setupLayout()
     }
 
+    // MARK: Setup uiviews in UIViewController
+
     private func setupViews() {
         view.addSubview(tableView)
     }
+
+    // MARK: Layout UIViews...
 
     private func setupLayout() {
         tableView.snp.makeConstraints { make in
@@ -54,7 +99,7 @@ class MenuViewController: UIViewController {
 
 // MARK: UITableView DataSource
 
-extension MenuViewController: UITableViewDataSource, UITableViewDelegate {
+extension MenuViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let customMenuHeaderView = CustomMenuHeaderView()
         return customMenuHeaderView
@@ -62,17 +107,5 @@ extension MenuViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 200
-    }
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return menuItems.count
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = MenuItemCell(style: .default, reuseIdentifier: "CellId")
-        let menuItem = menuItems[indexPath.item]
-        cell.iconImageView.image = menuItem.icon
-        cell.titleLabel.text = menuItem.title
-        return cell
     }
 }

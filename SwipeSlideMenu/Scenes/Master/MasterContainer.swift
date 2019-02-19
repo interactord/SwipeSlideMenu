@@ -31,8 +31,15 @@ final class MasterContainer {
             return viewController
         }
 
-        container.register(MenuViewController.self) { _ in
+        container.register(MenuViewModelType.self) { _ in
+            let viewModel = MenuViewModel()
+            return viewModel
+        }
+
+        container.register(MenuViewController.self) { resolver in
             let viewController = MenuViewController()
+            let viewModel = resolver.resolve(MenuViewModelType.self)!
+            viewController.viewModel = viewModel
             return viewController
         }
 
