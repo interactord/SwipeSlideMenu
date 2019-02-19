@@ -15,7 +15,7 @@ import RxGesture
 
 typealias TranslationType = (translation: CGPoint, velocity: CGPoint)
 
-class BaseViewController: UIViewController {
+class MasterViewController: UIViewController {
 
     // MARK: Definition Variable
 
@@ -40,8 +40,8 @@ class BaseViewController: UIViewController {
         return view
     }()
 
-    let homeViewController = HomeViewController()
-    let menuViewController = MenuViewController()
+    var homeviewController: HomeViewController?
+    var menuViewController: MenuViewController?
 
     private let menuWidth: CGFloat = 300
 
@@ -67,6 +67,8 @@ class BaseViewController: UIViewController {
     func setupViewContoller() {
 
         guard
+            let homeViewController = homeviewController,
+            let menuViewController = menuViewController,
             let homeView = homeViewController.view,
             let menuView = menuViewController.view
             else { return }
@@ -95,6 +97,8 @@ class BaseViewController: UIViewController {
 
     func setupViewContollerLayout() {
         guard
+            let homeViewController = homeviewController,
+            let menuViewController = menuViewController,
             let homeView = homeViewController.view,
             let menuView = menuViewController.view
             else { return }
