@@ -22,7 +22,7 @@ class CustomMenuHeaderView: UIView {
 
     private lazy var usernameLabel: UILabel = {
         let lable = UILabel()
-        lable.text = "interactord1"
+        lable.text = "@interactord1"
         return lable
     }()
 

@@ -8,12 +8,23 @@
 
 import UIKit
 
+struct MenuItem {
+    let icon: UIImage
+    let title: String
+}
+
 class MenuViewController: UITableViewController {
+
+    private lazy var menuItems = [
+        MenuItem(icon: #imageLiteral(resourceName: "profile"), title: "Profile"),
+        MenuItem(icon: #imageLiteral(resourceName: "lists"), title: "Lists"),
+        MenuItem(icon: #imageLiteral(resourceName: "bookmark"), title: "Bookmarks"),
+        MenuItem(icon: #imageLiteral(resourceName: "moments"), title: "Moments"),
+    ]
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        view.backgroundColor = .blue
+        tableView.separatorStyle = .none
     }
 }
 
@@ -30,12 +41,14 @@ extension MenuViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return menuItems.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .default, reuseIdentifier: "CellId")
-        cell.textLabel?.text = "menu item \(indexPath.item)"
+        let cell = MenuItemCell(style: .default, reuseIdentifier: "CellId")
+        let menuItem = menuItems[indexPath.item]
+        cell.iconImageView.image = menuItem.icon
+        cell.titleLabel.text = menuItem.title
         return cell
     }
 }

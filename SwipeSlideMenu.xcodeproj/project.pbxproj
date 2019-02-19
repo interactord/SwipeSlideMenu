@@ -13,6 +13,7 @@
 		2952F97E22198CE000278E22 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2952F97D22198CE000278E22 /* MenuViewController.swift */; };
 		2952F9832219BA0600278E22 /* Observable+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2952F9822219BA0600278E22 /* Observable+Ext.swift */; };
 		2952F98A2219CF1D00278E22 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2952F9892219CF1D00278E22 /* BaseViewController.swift */; };
+		29978041221C4198001A0995 /* MenuItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29978040221C4198001A0995 /* MenuItemCell.swift */; };
 		29B1FB6B221933D700098AB2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B1FB6A221933D700098AB2 /* AppDelegate.swift */; };
 		29B1FB70221933D700098AB2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 29B1FB6E221933D700098AB2 /* Main.storyboard */; };
 		29B1FB72221933D800098AB2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 29B1FB71221933D800098AB2 /* Assets.xcassets */; };
@@ -30,6 +31,7 @@
 		2952F97D22198CE000278E22 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		2952F9822219BA0600278E22 /* Observable+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Observable+Ext.swift"; sourceTree = "<group>"; };
 		2952F9892219CF1D00278E22 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		29978040221C4198001A0995 /* MenuItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemCell.swift; sourceTree = "<group>"; };
 		29B1FB67221933D700098AB2 /* SwipeSlideMenu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwipeSlideMenu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		29B1FB6A221933D700098AB2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		29B1FB6F221933D700098AB2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 			isa = PBXGroup;
 			children = (
 				29E17F4E221B05E400DBE0C2 /* CustomMenuHeaderView.swift */,
+				29978040221C4198001A0995 /* MenuItemCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -321,6 +324,7 @@
 			files = (
 				2952F977221958EF00278E22 /* BaseContainer.swift in Sources */,
 				29E17F4F221B05E400DBE0C2 /* CustomMenuHeaderView.swift in Sources */,
+				29978041221C4198001A0995 /* MenuItemCell.swift in Sources */,
 				2952F97E22198CE000278E22 /* MenuViewController.swift in Sources */,
 				29B1FB6B221933D700098AB2 /* AppDelegate.swift in Sources */,
 				2952F974221958DC00278E22 /* HomeContainer.swift in Sources */,
