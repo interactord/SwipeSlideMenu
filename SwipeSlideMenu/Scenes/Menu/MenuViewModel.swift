@@ -36,7 +36,7 @@ class MenuViewModel: MenuViewModelType {
             .map { print("menuItems") }
             .map { _ in
                 let items = [
-                    MenuItemCellModel(icon: #imageLiteral(resourceName: "profile"), title: "Profile"),
+                    MenuItemCellModel(icon: #imageLiteral(resourceName: "profile"), title: "Home"),
                     MenuItemCellModel(icon: #imageLiteral(resourceName: "lists"), title: "Lists"),
                     MenuItemCellModel(icon: #imageLiteral(resourceName: "bookmark"), title: "Bookmarks"),
                     MenuItemCellModel(icon: #imageLiteral(resourceName: "moments"), title: "Moments"),

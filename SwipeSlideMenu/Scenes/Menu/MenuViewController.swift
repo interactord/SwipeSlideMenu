@@ -29,7 +29,7 @@ class MenuViewController: UIViewController {
 
             let bag = DisposeBag()
 
-            tableView.rx.setDelegate(self).disposed(by: bag)
+            baseView.rx.setDelegate(self).disposed(by: bag)
 
             viewWillAppearTrigger
                 .bind(to: viewModel.startAction)
@@ -37,8 +37,16 @@ class MenuViewController: UIViewController {
 
             viewModel
                 .menuItems
-                .bind(to: self.tableView.rx.items(dataSource: source))
+                .bind(to: self.baseView.rx.items(dataSource: source))
                 .disposed(by: bag)
+
+            baseView
+                .rx
+                .itemSelected
+                .subscribe(onNext: { indexPath in
+                    let masterViewController = UIApplication.shared.keyWindow?.rootViewController as? MasterViewController
+                    masterViewController?.didSelectMenuItem(indexPath: indexPath)
+                }).disposed(by: bag)
 
             self.bag = bag
         }
@@ -46,7 +54,7 @@ class MenuViewController: UIViewController {
 
     private let cellId = "cellId"
 
-    private lazy var tableView: UITableView = {
+    private lazy var baseView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.separatorStyle = .none
         tableView.register(MenuItemCell.self, forCellReuseIdentifier: cellId)
@@ -85,13 +93,13 @@ class MenuViewController: UIViewController {
     // MARK: Setup uiviews in UIViewController
 
     private func setupViews() {
-        view.addSubview(tableView)
+        view.addSubview(baseView)
     }
 
     // MARK: Layout UIViews...
 
     private func setupLayout() {
-        tableView.fullScreenEdge()
+        baseView.fullScreenEdge()
     }
 }
 

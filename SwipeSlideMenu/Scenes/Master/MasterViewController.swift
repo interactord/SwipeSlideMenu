@@ -43,6 +43,7 @@ class MasterViewController: UIViewController {
     var homeviewController: HomeViewController?
     var menuViewController: MenuViewController?
 
+    private let menuOpened = BehaviorRelay<Bool>(value: false)
     private let menuWidth: CGFloat = 300
 
     // MARK: Life cycle
@@ -115,7 +116,6 @@ class MasterViewController: UIViewController {
             delegate.simultaneousRecognitionPolicy = .never
         }).share(replay: 1)
 
-        let menuOpened = BehaviorRelay<Bool>(value: false)
         let touchMovedGesture = panGesture.when(.changed).asTranslation()
         let touchEndedGesture = panGesture.when(.ended).asTranslation()
 
@@ -137,7 +137,7 @@ class MasterViewController: UIViewController {
             }
             .subscribe(onNext: { [weak self] result in
                 guard let strongSelf = self else { return }
-                menuOpened.accept(result)
+                strongSelf.menuOpened.accept(result)
                 strongSelf.handleMenu(isMenuOpened: result)
             })
             .disposed(by: bag)
@@ -177,6 +177,33 @@ class MasterViewController: UIViewController {
     func handleMenu(isMenuOpened: Bool) {
         isMenuOpened ? self.updateRedViewLeading(offset: menuWidth) : self.updateRedViewLeading(offset: 0)
         performAnimation(isMenuOpened: isMenuOpened)
+    }
+
+    func didSelectMenuItem(indexPath: IndexPath) {
+        print("indexPath Item: \(indexPath.item)")
+
+        switch indexPath.item {
+        case 0:
+            print("Show Home Screen")
+        case 1:
+            //            print("Show Lists Screen")
+            let listsController = ListsViewController()
+            redView.addSubview(listsController.view)
+            listsController.view.fullScreenEdge()
+
+        case 2:
+            //            print("Show Bookmarks Screen")
+            let bookmarksController = UIViewController()
+            bookmarksController.view.backgroundColor = .purple
+            redView.addSubview(bookmarksController.view)
+        default:
+            print("Show Moments Screen")
+        }
+
+        redView.bringSubviewToFront(darkCoverView)
+
+        menuOpened.accept(false)
+        handleMenu(isMenuOpened: menuOpened.value)
 
     }
 
