@@ -18,6 +18,7 @@
 		29978045221C4AB3001A0995 /* MenuItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29978044221C4AB3001A0995 /* MenuItemViewModel.swift */; };
 		29978048221C5171001A0995 /* MasterContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29978047221C5171001A0995 /* MasterContainer.swift */; };
 		2997804C221C5B36001A0995 /* UIViewController+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2997804B221C5B36001A0995 /* UIViewController+Rx.swift */; };
+		2997804E221C690C001A0995 /* UIView+Snp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2997804D221C690C001A0995 /* UIView+Snp.swift */; };
 		29B1FB6B221933D700098AB2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B1FB6A221933D700098AB2 /* AppDelegate.swift */; };
 		29B1FB70221933D700098AB2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 29B1FB6E221933D700098AB2 /* Main.storyboard */; };
 		29B1FB72221933D800098AB2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 29B1FB71221933D800098AB2 /* Assets.xcassets */; };
@@ -40,6 +41,7 @@
 		29978044221C4AB3001A0995 /* MenuItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemViewModel.swift; sourceTree = "<group>"; };
 		29978047221C5171001A0995 /* MasterContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterContainer.swift; sourceTree = "<group>"; };
 		2997804B221C5B36001A0995 /* UIViewController+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Rx.swift"; sourceTree = "<group>"; };
+		2997804D221C690C001A0995 /* UIView+Snp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Snp.swift"; sourceTree = "<group>"; };
 		29B1FB67221933D700098AB2 /* SwipeSlideMenu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwipeSlideMenu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		29B1FB6A221933D700098AB2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		29B1FB6F221933D700098AB2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 			children = (
 				2952F9822219BA0600278E22 /* Observable+Ext.swift */,
 				2997804B221C5B36001A0995 /* UIViewController+Rx.swift */,
+				2997804D221C690C001A0995 /* UIView+Snp.swift */,
 			);
 			path = Utiles;
 			sourceTree = "<group>";
@@ -346,6 +349,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2997804E221C690C001A0995 /* UIView+Snp.swift in Sources */,
 				2952F977221958EF00278E22 /* BaseContainer.swift in Sources */,
 				29E17F4F221B05E400DBE0C2 /* CustomMenuHeaderView.swift in Sources */,
 				29978041221C4198001A0995 /* MenuItemCell.swift in Sources */,

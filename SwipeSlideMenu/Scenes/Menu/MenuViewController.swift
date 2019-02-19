@@ -91,9 +91,7 @@ class MenuViewController: UIViewController {
     // MARK: Layout UIViews...
 
     private func setupLayout() {
-        tableView.snp.makeConstraints { make in
-            make.top.leading.bottom.trailing.equalTo(self.view)
-        }
+        tableView.fullScreenEdge()
     }
 }
 

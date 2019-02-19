@@ -88,10 +88,7 @@ class CustomMenuHeaderView: UIView {
     // MARK: Layout UIViews...
 
     private func setupLayout() {
-        stackView.snp.makeConstraints { make in
-            make.top.leading.bottom.trailing.equalTo(self)
-        }
-
+        stackView.fullScreenEdge()
     }
 
     private func setupStateAttributedText() {

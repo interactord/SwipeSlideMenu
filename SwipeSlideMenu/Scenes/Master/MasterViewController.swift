@@ -84,9 +84,7 @@ class MasterViewController: UIViewController {
     // MARK: Layout UIViews...
 
     func setupLayout() {
-        redView.snp.makeConstraints { make in
-            make.top.bottom.trailing.leading.equalTo(self.view)
-        }
+        redView.fullScreenAnchor(parentView: view)
 
         blueView.snp.makeConstraints { make in
             make.top.bottom.equalTo(self.redView)
@@ -103,16 +101,8 @@ class MasterViewController: UIViewController {
             let menuView = menuViewController.view
             else { return }
 
-        homeView.snp.makeConstraints { make in
-            make.top.trailing.bottom.leading.equalTo(redView)
-        }
-
-        darkCoverView.snp.makeConstraints { make in
-            make.top.trailing.bottom.leading.equalTo(redView)
-        }
-
-        menuView.snp.makeConstraints { make in
-            make.top.trailing.bottom.leading.equalTo(blueView)
+        [homeView, darkCoverView, menuView].forEach { view in
+            view.fullScreenEdge()
         }
 
     }
