@@ -79,20 +79,20 @@ class MasterViewController: BaseViewController {
     override func setupContraints() {
         super.setupViewController()
 
-        redView.fullScreenAnchor(parentView: view)
+        redView.snp.makeConstraints { make in
+            make.top.leading.bottom.trailing.equalTo(self.view)
+        }
 
         blueView.snp.makeConstraints { make in
-            make.top.bottom.equalTo(self.redView)
+            make.top.bottom.equalTo(self.view)
             make.trailing.equalTo(self.redView.snp.leading)
             make.width.equalTo(menuWidth)
         }
 
-        [
-            rightViewController.view,
-            menuViewController.view,
-        ].forEach { view in
-            view?.fullScreenEdge()
-        }
+        rightViewController.view.fullScreenAnchor(parentView: redView)
+        darkCoverView.fullScreenAnchor(parentView: redView)
+        menuViewController.view.fullScreenAnchor(parentView: blueView)
+
     }
 
     // MARK: Binding
@@ -115,7 +115,7 @@ class MasterViewController: BaseViewController {
             .subscribe(onNext: { [weak self] transitionX in
                 guard let strongSelf = self else { return }
                 strongSelf.darkCoverView.alpha = transitionX / strongSelf.menuWidth
-                strongSelf.updateRedViewLeading(offset: transitionX)
+                strongSelf.updateRedViewLeadingAndTrailing(offset: transitionX)
             })
             .disposed(by: bag)
 
@@ -126,6 +126,16 @@ class MasterViewController: BaseViewController {
             .subscribe(onNext: { [weak self] result in
                 guard let strongSelf = self else { return }
                 strongSelf.handleMenu(isMenuOpened: result)
+            })
+            .disposed(by: bag)
+
+        darkCoverView
+            .rx.tapGesture()
+            .map { _ in return self.menuOpened.value }
+            .subscribe(onNext: { opened in
+                if opened {
+                    self.handleMenu(isMenuOpened: false)
+                }
             })
             .disposed(by: bag)
 
@@ -156,15 +166,16 @@ class MasterViewController: BaseViewController {
         return !isMenuOpened
     }
 
-    func updateRedViewLeading(offset: CGFloat) {
+    func updateRedViewLeadingAndTrailing(offset: CGFloat) {
         redView.snp.updateConstraints { make in
-            make.leading.equalTo(self.view).offset(offset)
+            make.leading.equalTo(self.view.snp.leading).offset(offset)
+            make.trailing.equalTo(self.view.snp.trailing).offset(offset)
         }
     }
 
     func handleMenu(isMenuOpened: Bool) {
         menuOpened.accept(isMenuOpened)
-        isMenuOpened ? self.updateRedViewLeading(offset: menuWidth) : self.updateRedViewLeading(offset: 0)
+        isMenuOpened ? self.updateRedViewLeadingAndTrailing(offset: menuWidth) : self.updateRedViewLeadingAndTrailing(offset: 0)
         performAnimation(isMenuOpened: isMenuOpened)
     }
 
