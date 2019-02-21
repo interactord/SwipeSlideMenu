@@ -29,6 +29,8 @@ class HomeViewController: BaseViewController {
     lazy var baseView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.dataSource = self
+        tableView.backgroundColor = .clear
+        tableView.tableFooterView = UIView()
         return tableView
     }()
 

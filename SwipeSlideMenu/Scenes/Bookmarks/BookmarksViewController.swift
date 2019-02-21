@@ -13,11 +13,14 @@ class BookmarksViewController: BaseViewController {
     private lazy var baseView: UITableView = {
         let tableView = UITableView()
         tableView.dataSource = self
+        tableView.backgroundColor = .clear
+        tableView.tableFooterView = UIView()
         return tableView
     }()
 
     override func setupView() {
         super.setupView()
+        view.backgroundColor = .white
         view.addSubview(baseView)
     }
 
