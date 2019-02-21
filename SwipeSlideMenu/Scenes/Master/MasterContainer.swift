@@ -43,13 +43,19 @@ final class MasterContainer {
             return viewController
         }
 
+        container.register(ChatroomsMenuController.self) { _ in
+            let viewController = ChatroomsMenuController()
+            return viewController
+        }
+
         container.register(MasterViewController.self) { resolver in
             let rightViewController = resolver.resolve(HomeViewController.self)!
-            let menuViewController = resolver.resolve(MenuViewController.self)!
+            let chatroomViewController = resolver.resolve(ChatroomsMenuController.self)!
+//            let menuViewController = resolver.resolve(MenuViewController.self)!
 
             let masterViewController = MasterViewController(
                 rightViewController: UINavigationController(rootViewController: rightViewController),
-                menuViewController: menuViewController)
+                menuViewController: chatroomViewController)
 
             return masterViewController
         }
