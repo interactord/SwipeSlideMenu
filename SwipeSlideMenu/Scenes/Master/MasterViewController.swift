@@ -40,13 +40,23 @@ class MasterViewController: UIViewController {
         return view
     }()
 
-    var homeviewController: HomeViewController?
-    var menuViewController: MenuViewController?
+    var rightViewController: UIViewController
+    var menuViewController: UIViewController
 
     private let menuOpened = BehaviorRelay<Bool>(value: false)
     private let menuWidth: CGFloat = 300
 
     // MARK: Life cycle
+
+    init(rightViewController: UIViewController, menuViewController: UIViewController) {
+        self.rightViewController = rightViewController
+        self.menuViewController = menuViewController
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         view.backgroundColor = .yellow
@@ -68,17 +78,16 @@ class MasterViewController: UIViewController {
     func setupViewContoller() {
 
         guard
-            let homeViewController = homeviewController,
-            let menuViewController = menuViewController,
-            let homeView = homeViewController.view,
+            let rightView = rightViewController.view,
             let menuView = menuViewController.view
-            else { return }
-
-        redView.addSubview(homeView)
+            else {
+                return
+        }
+        redView.addSubview(rightView)
         redView.addSubview(darkCoverView)
         blueView.addSubview(menuView)
 
-        addChild(homeViewController)
+        addChild(rightViewController)
         addChild(menuViewController)
     }
 
@@ -96,13 +105,11 @@ class MasterViewController: UIViewController {
 
     func setupViewContollerLayout() {
         guard
-            let homeViewController = homeviewController,
-            let menuViewController = menuViewController,
-            let homeView = homeViewController.view,
+            let rightView = rightViewController.view,
             let menuView = menuViewController.view
             else { return }
 
-        [homeView, darkCoverView, menuView].forEach { view in
+        [rightView, darkCoverView, menuView].forEach { view in
             view.fullScreenEdge()
         }
 
@@ -180,22 +187,26 @@ class MasterViewController: UIViewController {
     }
 
     func didSelectMenuItem(indexPath: IndexPath) {
-        print("indexPath Item: \(indexPath.item)")
+        performRightViewCleanUp()
 
         switch indexPath.item {
         case 0:
-            print("Show Home Screen")
+            let homeController = HomeViewController()
+            redView.addSubview(homeController.view)
+            homeController.view.fullScreenEdge()
+            rightViewController = homeController
         case 1:
             //            print("Show Lists Screen")
             let listsController = ListsViewController()
             redView.addSubview(listsController.view)
             listsController.view.fullScreenEdge()
-
+            rightViewController = listsController
         case 2:
             //            print("Show Bookmarks Screen")
             let bookmarksController = UIViewController()
             bookmarksController.view.backgroundColor = .purple
             redView.addSubview(bookmarksController.view)
+            rightViewController = bookmarksController
         default:
             print("Show Moments Screen")
         }
@@ -205,6 +216,11 @@ class MasterViewController: UIViewController {
         menuOpened.accept(false)
         handleMenu(isMenuOpened: menuOpened.value)
 
+    }
+
+    private func performRightViewCleanUp() {
+        rightViewController.view.removeFromSuperview()
+        rightViewController.removeFromParent()
     }
 
     // MARK: Animated

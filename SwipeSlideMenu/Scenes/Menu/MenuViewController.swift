@@ -23,7 +23,7 @@ class MenuViewController: UIViewController {
 
     var bag: DisposeBag?
 
-    var viewModel: MenuViewModelType? {
+    var viewModel: MenuViewModel? {
         didSet {
             guard let viewModel = viewModel else { return }
 
@@ -32,10 +32,11 @@ class MenuViewController: UIViewController {
             baseView.rx.setDelegate(self).disposed(by: bag)
 
             viewWillAppearTrigger
-                .bind(to: viewModel.startAction)
+                .bind(to: viewModel.input.start)
                 .disposed(by: bag)
 
             viewModel
+                .output
                 .menuItems
                 .bind(to: self.baseView.rx.items(dataSource: source))
                 .disposed(by: bag)

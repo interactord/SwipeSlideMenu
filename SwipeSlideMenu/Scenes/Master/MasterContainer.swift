@@ -31,25 +31,26 @@ final class MasterContainer {
             return viewController
         }
 
-        container.register(MenuViewModelType.self) { _ in
+        container.register(MenuViewModel.self) { _ in
             let viewModel = MenuViewModel()
             return viewModel
         }
 
         container.register(MenuViewController.self) { resolver in
             let viewController = MenuViewController()
-            let viewModel = resolver.resolve(MenuViewModelType.self)!
+            let viewModel = resolver.resolve(MenuViewModel.self)!
             viewController.viewModel = viewModel
             return viewController
         }
 
         container.register(MasterViewController.self) { resolver in
-            let masterViewController = MasterViewController()
-            let homeViewController = resolver.resolve(HomeViewController.self)!
+            let rightViewController = resolver.resolve(HomeViewController.self)!
             let menuViewController = resolver.resolve(MenuViewController.self)!
 
-            masterViewController.homeviewController = homeViewController
-            masterViewController.menuViewController = menuViewController
+            let masterViewController = MasterViewController(
+                rightViewController: rightViewController,
+                menuViewController: menuViewController)
+
             return masterViewController
         }
     }

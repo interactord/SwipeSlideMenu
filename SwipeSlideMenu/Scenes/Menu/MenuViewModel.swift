@@ -12,37 +12,43 @@ import RxDataSources
 
 typealias MenuSection = SectionModel<Void, MenuItemCellModelType>
 
-protocol MenuViewModelInput {
-    var startAction: PublishSubject<Void> { get }
-}
-
-protocol MenuViewModelOutput {
-    var menuItems: Observable<[MenuSection]> { get }
-}
-
-typealias MenuViewModelType = MenuViewModelInput & MenuViewModelOutput
-
-class MenuViewModel: MenuViewModelType {
+class MenuViewModel: ViewModelType {
 
     // MARK: Input
-    let startAction = PublishSubject<Void>()
+    struct InputType {
+        let start: PublishSubject<Void>
+    }
 
     // MARK: Output
-    var menuItems: Observable<[MenuSection]>
+    struct OutputType {
+        let menuItems: Observable<[MenuSection]>
+    }
 
+    let input: InputType
+    var output: OutputType
     init() {
+        self.input = MenuViewModel.setInputType()
+        self.output = MenuViewModel.setOupType(input: input)
+    }
 
-        menuItems = startAction
+    static func setInputType() -> InputType {
+        let start = PublishSubject<Void>()
+        return InputType(start: start)
+    }
+
+    static func setOupType(input: InputType) -> OutputType {
+        let menuItems = input.start
             .map { print("menuItems") }
-            .map { _ in
+            .map { (_) -> [MenuSection] in
                 let items = [
                     MenuItemCellModel(icon: #imageLiteral(resourceName: "profile"), title: "Home"),
                     MenuItemCellModel(icon: #imageLiteral(resourceName: "lists"), title: "Lists"),
                     MenuItemCellModel(icon: #imageLiteral(resourceName: "bookmark"), title: "Bookmarks"),
                     MenuItemCellModel(icon: #imageLiteral(resourceName: "moments"), title: "Moments"),
-                ]
+                    ]
 
                 return [SectionModel(model: Void(), items: items)]
-            }
+        }
+        return OutputType(menuItems: menuItems)
     }
 }
