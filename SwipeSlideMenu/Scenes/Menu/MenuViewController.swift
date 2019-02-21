@@ -17,46 +17,18 @@ struct MenuItem {
     let title: String
 }
 
-class MenuViewController: UIViewController {
+class MenuViewController: BaseViewController {
 
     // MARK: Definition Variable
 
-    var bag: DisposeBag?
-
-    var viewModel: MenuViewModel? {
-        didSet {
-            guard let viewModel = viewModel else { return }
-
-            let bag = DisposeBag()
-
-            baseView.rx.setDelegate(self).disposed(by: bag)
-
-            viewWillAppearTrigger
-                .bind(to: viewModel.input.start)
-                .disposed(by: bag)
-
-            viewModel
-                .output
-                .menuItems
-                .bind(to: self.baseView.rx.items(dataSource: source))
-                .disposed(by: bag)
-
-            baseView
-                .rx
-                .itemSelected
-                .subscribe(onNext: { indexPath in
-                    let masterViewController = UIApplication.shared.keyWindow?.rootViewController as? MasterViewController
-                    masterViewController?.didSelectMenuItem(indexPath: indexPath)
-                }).disposed(by: bag)
-
-            self.bag = bag
-        }
-    }
+    var viewModel: MenuViewModel!
 
     private let cellId = "cellId"
 
     private lazy var baseView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.rx.setDelegate(self).disposed(by: bag)
+        tableView.dataSource = nil
         tableView.separatorStyle = .none
         tableView.register(MenuItemCell.self, forCellReuseIdentifier: cellId)
         return tableView
@@ -76,32 +48,46 @@ class MenuViewController: UIViewController {
         return menuCell
     }
 
-    private lazy var menuItems = [
-        MenuItem(icon: #imageLiteral(resourceName: "profile"), title: "Profile"),
-        MenuItem(icon: #imageLiteral(resourceName: "lists"), title: "Lists"),
-        MenuItem(icon: #imageLiteral(resourceName: "bookmark"), title: "Bookmarks"),
-        MenuItem(icon: #imageLiteral(resourceName: "moments"), title: "Moments"),
-    ]
-
     // MARK: Life cycle
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupViews()
-        setupLayout()
-    }
-
-    // MARK: Setup uiviews in UIViewController
-
-    private func setupViews() {
+    override func setupView() {
+        super.setupView()
         view.addSubview(baseView)
+
     }
 
-    // MARK: Layout UIViews...
+    override func setupContraints() {
+        super.setupContraints()
 
-    private func setupLayout() {
         baseView.fullScreenEdge()
     }
+
+    override func setupBindingInput() {
+        super.setupBindingInput()
+
+        viewWillAppearTrigger
+            .bind(to: viewModel.input.start)
+            .disposed(by: bag)
+    }
+
+    override func setupBindingOutput() {
+        super.setupBindingOutput()
+
+        viewModel
+            .output
+            .menuItems
+            .bind(to: self.baseView.rx.items(dataSource: source))
+            .disposed(by: bag)
+
+        baseView
+            .rx
+            .itemSelected
+            .subscribe(onNext: { indexPath in
+                let masterViewController = UIApplication.shared.keyWindow?.rootViewController as? MasterViewController
+                masterViewController?.didSelectMenuItem(indexPath: indexPath)
+            }).disposed(by: bag)
+    }
+
 }
 
 // MARK: UITableView DataSource

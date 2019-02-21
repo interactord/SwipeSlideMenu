@@ -15,11 +15,9 @@ import RxGesture
 
 typealias TranslationType = (translation: CGPoint, velocity: CGPoint)
 
-class MasterViewController: UIViewController {
+class MasterViewController: BaseViewController {
 
     // MARK: Definition Variable
-
-    let bag = DisposeBag()
 
     let redView: UIView = {
         let view = UIView()
@@ -51,49 +49,36 @@ class MasterViewController: UIViewController {
     init(rightViewController: UIViewController, menuViewController: UIViewController) {
         self.rightViewController = rightViewController
         self.menuViewController = menuViewController
-        super.init(nibName: nil, bundle: nil)
+        super.init()
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required convenience init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func viewDidLoad() {
-        view.backgroundColor = .yellow
+    // MARK: Life cycle
 
-        setupViews()
-        setupLayout()
-        setupBinding()
-        setupViewContoller()
-        setupViewContollerLayout()
-    }
+    override func setupView() {
+        super.setupView()
 
-    // MARK: Setup uiviews in UIViewController
-
-    func setupViews() {
         view.addSubview(redView)
         view.addSubview(blueView)
+
+        redView.addSubview(rightViewController.view)
+        redView.addSubview(darkCoverView)
+        blueView.addSubview(menuViewController.view)
     }
 
-    func setupViewContoller() {
-
-        guard
-            let rightView = rightViewController.view,
-            let menuView = menuViewController.view
-            else {
-                return
-        }
-        redView.addSubview(rightView)
-        redView.addSubview(darkCoverView)
-        blueView.addSubview(menuView)
+    override func setupViewController() {
+        super.setupViewController()
 
         addChild(rightViewController)
         addChild(menuViewController)
     }
 
-    // MARK: Layout UIViews...
+    override func setupContraints() {
+        super.setupViewController()
 
-    func setupLayout() {
         redView.fullScreenAnchor(parentView: view)
 
         blueView.snp.makeConstraints { make in
@@ -101,24 +86,20 @@ class MasterViewController: UIViewController {
             make.trailing.equalTo(self.redView.snp.leading)
             make.width.equalTo(menuWidth)
         }
-    }
 
-    func setupViewContollerLayout() {
-        guard
-            let rightView = rightViewController.view,
-            let menuView = menuViewController.view
-            else { return }
-
-        [rightView, darkCoverView, menuView].forEach { view in
-            view.fullScreenEdge()
+        [
+            rightViewController.view,
+            menuViewController.view,
+        ].forEach { view in
+            view?.fullScreenEdge()
         }
-
     }
 
     // MARK: Binding
 
-    func setupBinding() {
-        // how do we translate our red view
+    override func setupBindingInput() {
+        super.setupBindingInput()
+
         let panGesture = view.rx.panGesture(configuration: { _, delegate in
             delegate.simultaneousRecognitionPolicy = .never
         }).share(replay: 1)
@@ -148,6 +129,7 @@ class MasterViewController: UIViewController {
                 strongSelf.handleMenu(isMenuOpened: result)
             })
             .disposed(by: bag)
+
     }
 
     // MARK: Setup PanGesuture
