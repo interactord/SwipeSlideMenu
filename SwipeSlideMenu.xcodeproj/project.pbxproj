@@ -22,6 +22,7 @@
 		29978053221C755E001A0995 /* ListsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29978052221C755E001A0995 /* ListsViewController.swift */; };
 		29AAA7D1221EDEF3000EC6C9 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29AAA7D0221EDEF3000EC6C9 /* BaseViewController.swift */; };
 		29AAA7D3221EDF3B000EC6C9 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29AAA7D2221EDF3B000EC6C9 /* ViewModel.swift */; };
+		29AAA7D6221EF8A7000EC6C9 /* BookmarksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29AAA7D5221EF8A7000EC6C9 /* BookmarksViewController.swift */; };
 		29B1FB6B221933D700098AB2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B1FB6A221933D700098AB2 /* AppDelegate.swift */; };
 		29B1FB70221933D700098AB2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 29B1FB6E221933D700098AB2 /* Main.storyboard */; };
 		29B1FB72221933D800098AB2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 29B1FB71221933D800098AB2 /* Assets.xcassets */; };
@@ -48,6 +49,7 @@
 		29978052221C755E001A0995 /* ListsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsViewController.swift; sourceTree = "<group>"; };
 		29AAA7D0221EDEF3000EC6C9 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		29AAA7D2221EDF3B000EC6C9 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		29AAA7D5221EF8A7000EC6C9 /* BookmarksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksViewController.swift; sourceTree = "<group>"; };
 		29B1FB67221933D700098AB2 /* SwipeSlideMenu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwipeSlideMenu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		29B1FB6A221933D700098AB2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		29B1FB6F221933D700098AB2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -90,6 +92,7 @@
 		2952F96F221957DA00278E22 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				29AAA7D4221EF88E000EC6C9 /* Bookmarks */,
 				29978051221C7541001A0995 /* Lists */,
 				29978046221C515E001A0995 /* Master */,
 				2952F971221957F700278E22 /* Menu */,
@@ -162,6 +165,14 @@
 				29978052221C755E001A0995 /* ListsViewController.swift */,
 			);
 			path = Lists;
+			sourceTree = "<group>";
+		};
+		29AAA7D4221EF88E000EC6C9 /* Bookmarks */ = {
+			isa = PBXGroup;
+			children = (
+				29AAA7D5221EF8A7000EC6C9 /* BookmarksViewController.swift */,
+			);
+			path = Bookmarks;
 			sourceTree = "<group>";
 		};
 		29B1FB5E221933D700098AB2 = {
@@ -366,6 +377,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				29AAA7D6221EF8A7000EC6C9 /* BookmarksViewController.swift in Sources */,
 				2997804E221C690C001A0995 /* UIView+Snp.swift in Sources */,
 				29978053221C755E001A0995 /* ListsViewController.swift in Sources */,
 				2952F977221958EF00278E22 /* BaseContainer.swift in Sources */,

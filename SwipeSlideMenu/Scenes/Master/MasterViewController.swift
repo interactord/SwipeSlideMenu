@@ -125,7 +125,6 @@ class MasterViewController: BaseViewController {
             }
             .subscribe(onNext: { [weak self] result in
                 guard let strongSelf = self else { return }
-                strongSelf.menuOpened.accept(result)
                 strongSelf.handleMenu(isMenuOpened: result)
             })
             .disposed(by: bag)
@@ -164,40 +163,38 @@ class MasterViewController: BaseViewController {
     }
 
     func handleMenu(isMenuOpened: Bool) {
+        menuOpened.accept(isMenuOpened)
         isMenuOpened ? self.updateRedViewLeading(offset: menuWidth) : self.updateRedViewLeading(offset: 0)
         performAnimation(isMenuOpened: isMenuOpened)
     }
 
     func didSelectMenuItem(indexPath: IndexPath) {
         performRightViewCleanUp()
+        handleMenu(isMenuOpened: false)
 
         switch indexPath.item {
         case 0:
-            let homeController = HomeViewController()
-            redView.addSubview(homeController.view)
-            homeController.view.fullScreenEdge()
-            rightViewController = homeController
+            rightViewController = UINavigationController(rootViewController: HomeViewController())
         case 1:
-            //            print("Show Lists Screen")
-            let listsController = ListsViewController()
-            redView.addSubview(listsController.view)
-            listsController.view.fullScreenEdge()
-            rightViewController = listsController
+            rightViewController = UINavigationController(rootViewController: ListsViewController())
         case 2:
-            //            print("Show Bookmarks Screen")
-            let bookmarksController = UIViewController()
-            bookmarksController.view.backgroundColor = .purple
-            redView.addSubview(bookmarksController.view)
-            rightViewController = bookmarksController
+            rightViewController = BookmarksViewController()
         default:
-            print("Show Moments Screen")
+            let tabBarcontroller = UITabBarController()
+            let momentController = UIViewController()
+            momentController.navigationItem.title = "Moments"
+            momentController.view.backgroundColor = .orange
+            let navController = UINavigationController(rootViewController: momentController)
+            navController.tabBarItem.title = "Moements"
+
+            tabBarcontroller.viewControllers = [navController]
+            rightViewController = tabBarcontroller
         }
 
+        redView.addSubview(rightViewController.view)
+        addChild(rightViewController)
+
         redView.bringSubviewToFront(darkCoverView)
-
-        menuOpened.accept(false)
-        handleMenu(isMenuOpened: menuOpened.value)
-
     }
 
     private func performRightViewCleanUp() {

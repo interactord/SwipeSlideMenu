@@ -12,7 +12,7 @@ import RxSwift
 import RxCocoa
 import RxGesture
 
-class HomeViewController: UIViewController {
+class HomeViewController: BaseViewController {
 
     // MARK: Definition Variable
 
@@ -34,32 +34,35 @@ class HomeViewController: UIViewController {
 
     // MARK: Life cycle
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupViews()
-        setupLayout()
-        setupNavigationItems()
-    }
+    override func setupView() {
+        super.setupView()
 
-    func setupViews() {
         view.backgroundColor = .red
         view.addSubview(baseView)
     }
 
-    func setupNavigationItems() {
+    override func setupViewController() {
+        super.setupViewController()
+
         navigationItem.title = "home"
         navigationItem.leftBarButtonItem = openBarButton
         navigationItem.rightBarButtonItem = hideBarButton
     }
 
-    func setupLayout() {
+    override func setupContraints() {
+        super.setupContraints()
+
         baseView.fullScreenEdge()
     }
 
-    private func openMennu() {
-    }
+    override func setupBindingInput() {
+        openBarButton.rx.tap.subscribe(onNext: { _ in
+           (UIApplication.shared.keyWindow?.rootViewController as? MasterViewController)?.handleMenu(isMenuOpened: true)
+        }).disposed(by: bag)
 
-    private func hideMenu() {
+        hideBarButton.rx.tap.subscribe(onNext: { _ in
+             (UIApplication.shared.keyWindow?.rootViewController as? MasterViewController)?.handleMenu(isMenuOpened: false)
+        }).disposed(by: bag)
     }
 }
 

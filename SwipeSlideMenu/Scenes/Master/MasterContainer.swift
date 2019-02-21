@@ -48,7 +48,7 @@ final class MasterContainer {
             let menuViewController = resolver.resolve(MenuViewController.self)!
 
             let masterViewController = MasterViewController(
-                rightViewController: rightViewController,
+                rightViewController: UINavigationController(rootViewController: rightViewController),
                 menuViewController: menuViewController)
 
             return masterViewController
