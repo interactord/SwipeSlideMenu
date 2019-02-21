@@ -177,6 +177,11 @@ class MasterViewController: BaseViewController {
         menuOpened.accept(isMenuOpened)
         isMenuOpened ? self.updateRedViewLeadingAndTrailing(offset: menuWidth) : self.updateRedViewLeadingAndTrailing(offset: 0)
         performAnimation(isMenuOpened: isMenuOpened)
+        setNeedsStatusBarAppearanceUpdate()
+    }
+
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return menuOpened.value ? .lightContent : .default
     }
 
     func didSelectMenuItem(indexPath: IndexPath) {
