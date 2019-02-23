@@ -16,9 +16,16 @@ class HomeViewController: BaseViewController {
 
     // MARK: Definition Variable
 
-    let openBarButton: UIBarButtonItem = {
-        let barButton = UIBarButtonItem(title: "Open", style: .plain, target: nil, action: nil)
-        return barButton
+    private lazy var openBarButton: UIButton = {
+        let imageButton = UIButton(type: .system)
+        imageButton.setImage(#imageLiteral(resourceName: "girl_profile").withRenderingMode(.alwaysOriginal), for: .normal)
+        imageButton.imageView?.contentMode = .scaleAspectFit
+        imageButton.layer.cornerRadius = 20
+        imageButton.clipsToBounds = true
+        imageButton.snp.makeConstraints({ make in
+            make.width.height.equalTo(40)
+        })
+        return imageButton
     }()
 
     let hideBarButton: UIBarButtonItem = {
@@ -47,7 +54,7 @@ class HomeViewController: BaseViewController {
         super.setupViewController()
 
         navigationItem.title = "home"
-        navigationItem.leftBarButtonItem = openBarButton
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: openBarButton)
         navigationItem.rightBarButtonItem = hideBarButton
     }
 
