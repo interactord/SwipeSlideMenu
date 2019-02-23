@@ -48,9 +48,24 @@ final class MasterContainer {
             return viewController
         }
 
+        container.register(SeachViewContainer.self) { _ in
+            let viewContainer = SeachViewContainer()
+            return viewContainer
+        }
+
+        container.register(ChatroomsViewContainer.self) { resolver in
+            let chatroomsMenuController = resolver.resolve(ChatroomsMenuController.self)!
+            let seachViewContrainer = resolver.resolve(SeachViewContainer.self)!
+            let viewContainer = ChatroomsViewContainer(
+                chatroomsMenuController: chatroomsMenuController,
+                seachViewContainer: seachViewContrainer
+            )
+            return viewContainer
+        }
+
         container.register(MasterViewController.self) { resolver in
             let rightViewController = resolver.resolve(HomeViewController.self)!
-            let chatroomViewController = resolver.resolve(ChatroomsMenuController.self)!
+            let chatroomViewController = resolver.resolve(ChatroomsViewContainer.self)!
 //            let menuViewController = resolver.resolve(MenuViewController.self)!
 
             let masterViewController = MasterViewController(

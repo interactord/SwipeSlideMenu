@@ -13,6 +13,8 @@
 		2952F97E22198CE000278E22 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2952F97D22198CE000278E22 /* MenuViewController.swift */; };
 		2952F9832219BA0600278E22 /* Observable+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2952F9822219BA0600278E22 /* Observable+Ext.swift */; };
 		2952F98A2219CF1D00278E22 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2952F9892219CF1D00278E22 /* MasterViewController.swift */; };
+		297A24972221063B00151F8C /* ChatroomsViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297A24962221063B00151F8C /* ChatroomsViewContainer.swift */; };
+		297A2499222106BB00151F8C /* SeachViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297A2498222106BB00151F8C /* SeachViewContainer.swift */; };
 		29978041221C4198001A0995 /* MenuItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29978040221C4198001A0995 /* MenuItemCell.swift */; };
 		29978043221C4790001A0995 /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29978042221C4790001A0995 /* MenuViewModel.swift */; };
 		29978045221C4AB3001A0995 /* MenuItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29978044221C4AB3001A0995 /* MenuItemViewModel.swift */; };
@@ -43,6 +45,8 @@
 		2952F97D22198CE000278E22 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		2952F9822219BA0600278E22 /* Observable+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Observable+Ext.swift"; sourceTree = "<group>"; };
 		2952F9892219CF1D00278E22 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
+		297A24962221063B00151F8C /* ChatroomsViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatroomsViewContainer.swift; sourceTree = "<group>"; };
+		297A2498222106BB00151F8C /* SeachViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeachViewContainer.swift; sourceTree = "<group>"; };
 		29978040221C4198001A0995 /* MenuItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemCell.swift; sourceTree = "<group>"; };
 		29978042221C4790001A0995 /* MenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModel.swift; sourceTree = "<group>"; };
 		29978044221C4AB3001A0995 /* MenuItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemViewModel.swift; sourceTree = "<group>"; };
@@ -188,6 +192,8 @@
 			children = (
 				29AAA7DA221F13FD000EC6C9 /* ChatroomsViewController.swift */,
 				29AAA7E0221F1B43000EC6C9 /* ChatroomMenuCell.swift */,
+				297A24962221063B00151F8C /* ChatroomsViewContainer.swift */,
+				297A2498222106BB00151F8C /* SeachViewContainer.swift */,
 			);
 			path = Chatrooms;
 			sourceTree = "<group>";
@@ -394,6 +400,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				297A2499222106BB00151F8C /* SeachViewContainer.swift in Sources */,
 				29AAA7D6221EF8A7000EC6C9 /* BookmarksViewController.swift in Sources */,
 				2997804E221C690C001A0995 /* UIView+Snp.swift in Sources */,
 				29978053221C755E001A0995 /* ListsViewController.swift in Sources */,
@@ -415,6 +422,7 @@
 				2952F9832219BA0600278E22 /* Observable+Ext.swift in Sources */,
 				2952F98A2219CF1D00278E22 /* MasterViewController.swift in Sources */,
 				2952F97922195A9400278E22 /* HomeViewController.swift in Sources */,
+				297A24972221063B00151F8C /* ChatroomsViewContainer.swift in Sources */,
 				29E17F56221B132300DBE0C2 /* ImageSpaceView.swift in Sources */,
 				29AAA7E1221F1B43000EC6C9 /* ChatroomMenuCell.swift in Sources */,
 			);
