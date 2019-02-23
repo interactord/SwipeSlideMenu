@@ -32,6 +32,8 @@ class SeachViewContainer: BaseViewController {
 
         view.backgroundColor = #colorLiteral(red: 0.2549019608, green: 0.1843137255, blue: 0.2470588235, alpha: 1)
 
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).textColor = .white
+
         view.addSubview(seachBar)
         view.addSubview(rocketImageView)
     }

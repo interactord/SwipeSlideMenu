@@ -57,4 +57,16 @@ class ChatroomsViewContainer: BaseViewController {
             make.bottom.trailing.equalTo(self.view)
         }
     }
+
+    override func setupBindingInput() {
+        super.setupBindingInput()
+        seachViewContainer.seachBar.rx.text.subscribe(onNext: { [weak self] text in
+            guard
+                let strongSelf = self,
+                let seachText = text
+                else { return }
+
+            strongSelf.chatroomsMenuController.seachFilteredResult(seachText: seachText)
+        }).disposed(by: bag)
+    }
 }
